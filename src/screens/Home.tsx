@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import whiteCartIcon from '../assets/white-cart.svg'
 import cupIcon from '../assets/cup.svg'
 import timerIcon from '../assets/timer.svg'
@@ -7,7 +9,24 @@ import cupWithBackgroundIcon from '../assets/cup-with-background.svg'
 import { CoffeeCard } from '../components/CoffeeCard'
 import { Theme } from '../components/Theme'
 
+interface ICoffeeData {
+  id: number
+  description: string
+  tags: string[]
+  name: string
+  price: number
+  imageUrl: string
+}
+
 export function Home() {
+  const [coffees, setCoffees] = useState<ICoffeeData[]>([])
+
+  useEffect(() => {
+    fetch('http://localhost:3000/coffees')
+      .then((response) => response.json())
+      .then((data) => setCoffees(data))
+  }, [])
+
   return (
     <Theme>
       <div className="flex items-center justify-center h-[34rem]">
@@ -69,12 +88,14 @@ export function Home() {
         </div>
       </div>
 
-      <h3 className="font-['Baloo_2'] font-extrabold text-3xl leading-[130%] text-[#403937]">
+      <h3 className="font-['Baloo_2'] font-extrabold text-3xl mb-14 leading-[130%] text-[#403937]">
         Nossos cafés
       </h3>
 
-      <ul className="mt-14">
-        <CoffeeCard />
+      <ul className="grid grid-cols-4 gap-x-8 gap-y-12">
+        {coffees.map((coffee) => (
+          <CoffeeCard key={coffee.id} {...coffee} />
+        ))}
       </ul>
     </Theme>
   )

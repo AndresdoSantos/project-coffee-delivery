@@ -1,10 +1,23 @@
+import { useParams } from 'react-router-dom'
 import { CurrencyDollar, MapPin, Timer } from 'phosphor-react'
 
 import { Theme } from '../components/Theme'
 
 import vehycleImg from '../assets/vehycle-delivery.svg'
+import { useEffect } from 'react'
+
+/** interface IParam {
+  locale: string
+  paymentMethod: string
+} */
 
 export function Success() {
+  const param = useParams()
+
+  useEffect(() => {
+    window.localStorage.setItem('locale', String(param.locale))
+  }, [param.locale])
+
   return (
     <Theme>
       <header className="mb-10">
@@ -26,8 +39,11 @@ export function Success() {
               </div>
 
               <p className="text-[#574F4D] leading-[130%]">
-                Entrega em <strong>Rua João Daniel Martinelli, 102</strong>{' '}
-                Farrapos - Porto Alegre, RS
+                Entrega em{' '}
+                <strong>
+                  {param.street}, {param.number}
+                </strong>{' '}
+                {param.city} - {param.federativeUnion}
               </p>
             </div>
 
@@ -47,7 +63,7 @@ export function Success() {
               </div>
 
               <p className="text-[#574F4D] leading-[130%]">
-                Pagamento na entrega <strong>Cartão de Crédito</strong>
+                Pagamento na entrega <strong>{param.paymentMethod}</strong>
               </p>
             </div>
           </main>

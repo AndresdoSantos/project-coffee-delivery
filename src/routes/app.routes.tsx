@@ -10,7 +10,10 @@ export function AppRouter() {
       <Routes>
         <Route index element={<Home />} />
         <Route path="checkout" element={<Checkout />} />
-        <Route path="success" element={<Success />} />
+        <Route
+          path="success/:street/:number/:city/:federativeUnion/:paymentMethod"
+          element={<Success />}
+        />
       </Routes>
     </BrowserRouter>
   )
